@@ -1,5 +1,6 @@
 package tpDeSimulacion;
 
+import java.util.List;
 import java.util.Random;
 
 import org.joda.time.LocalTime;
@@ -7,6 +8,8 @@ import org.joda.time.LocalTime;
 
 public class Restaurante {
 	
+	static List <Cliente> clientesAsociadosEnEspera;
+	static List <Cliente> clientesNoAsociadosEnEspera;
 	private static final LocalTime HV = new LocalTime(100,0,0,0);
 	static LocalTime TPLL = new LocalTime(9,10,0,0);
 	static LocalTime Ia, Ta;
@@ -74,6 +77,7 @@ public class Restaurante {
 		 					else{
 		 						//No fue atendido, pobre diablo
 		 						NSA++;
+		 						clientesAsociadosEnEspera.add(cliente);
 		 					}
 		 					
 		 				}//Fin de NSA >=5
@@ -101,6 +105,7 @@ public class Restaurante {
 			 				}
 			 				else {
 			 						NSNA++;
+			 						clientesNoAsociadosEnEspera.add(cliente);
 			 					}
 		 					}
 		 					}	
@@ -114,9 +119,11 @@ public class Restaurante {
 		 			if(NS >= 1 && NM < N){
 		 				if(NSA >= 0){
 		 					NSA--;
+			 				TPS[i].setCliente(clientesAsociadosEnEspera.get(0));
 		 				}
 		 				else{
 		 					NSNA--;
+			 				TPS[i].setCliente(clientesNoAsociadosEnEspera.get(0));
 		 				}
 		 				
 		 				Ta = TA();
