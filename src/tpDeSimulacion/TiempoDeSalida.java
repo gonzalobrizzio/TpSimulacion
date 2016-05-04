@@ -6,6 +6,10 @@ public class TiempoDeSalida {
 	private Cliente cliente;
 	private LocalTime horarioDeSalida;
 	
+	TiempoDeSalida(LocalTime horario) {
+		this.horarioDeSalida = horario;
+	}
+	
 	public LocalTime getHorarioDeSalida() {
 		return horarioDeSalida;
 	}
