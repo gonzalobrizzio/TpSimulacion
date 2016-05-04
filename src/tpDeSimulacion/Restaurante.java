@@ -31,7 +31,7 @@ public class Restaurante {
 	 public static void main (String [] args) {
 		 
 		 	
-	        System.out.println ("Bienvenido a la simulación del restaurante");
+	        System.out.println ("Bienvenido a la simulaciÃ³n del restaurante");
 	        
 		 	TPS = new TiempoDeSalida[M];
 		 	NMM = new int [N];
@@ -50,14 +50,14 @@ public class Restaurante {
 		 			Ia = IA();
 		 			TPLL = sumarHoras(T, Ia);
 		 			NS++;
-		 			Random r1 = new Random();
-		 			if(r1.nextDouble() <= 0.4){
+		 			Random R = new Random();
+		 			if(R.nextDouble() <= 0.4){
 		 				//Es un asociado
 		 				NA++;
 		 		
 		 				if(NSA >= 5){
 		 					//Puede arrepentirse
-		 					if( r1.nextDouble() <= 0.3){
+		 					if( R.nextDouble() <= 0.3){
 		 						//Se arrepiente
 		 						NS--;
 		 						continue;
@@ -65,7 +65,7 @@ public class Restaurante {
 		 					
 		 					if(NSA == 0){
 			 					//No se arrepintio, y se analiza si es atendido
-			 					if(NMO <M && NM < N && algunMozoPuedeAtender()){
+			 					if(NS <= M && NS <= 4*N){
 			 						//Es atendido
 			 						Ta = TA();
 			 						TPS[i].setHorarioDeSalida(sumarHoras(T,Ta));
@@ -87,7 +87,7 @@ public class Restaurante {
 		 			else{
 		 				
 		 				if(NSNA >= 5 ){
-		 					if( r1.nextDouble() <= 0.3){
+		 					if(R.nextDouble() <= 0.3){
 		 						//Se arrepiente
 		 						NS--;
 		 						continue;
@@ -95,7 +95,7 @@ public class Restaurante {
 		 					
 		 					if(NSNA == 0){
 			 					//No se arrepintio, y se analiza si es atendido
-			 					if(NMO <M && NM < N && algunMozoPuedeAtender()){
+			 					if(NS <=M && NS <=4*N){
 			 						//Es atendido
 			 						Ta = TA();
 			 						TPS[i].setHorarioDeSalida(sumarHoras(T,Ta));
@@ -110,20 +110,22 @@ public class Restaurante {
 		 					}
 		 					}	
 		 				}	
-		 		}//Fin comparación de hora de llegada y salida
+		 		}//Fin comparaciÃ³n de hora de llegada y salida
 		 		else{
 		 			T = TPS[i].getHorarioDeSalida();
 		 			NS--;
 		 			liberarMozo(TPS[i].getCliente());
 		 			NMO--;
-		 			if(NS >= 1 && NM < N){
+		 			if(NS >= M || NS >= N*4){
 		 				if(NSA >= 0){
 		 					NSA--;
 			 				TPS[i].setCliente(clientesAsociadosEnEspera.get(0));
+							clienteAsociadosEnEspera.remove(0);
 		 				}
 		 				else{
 		 					NSNA--;
 			 				TPS[i].setCliente(clientesNoAsociadosEnEspera.get(0));
+							clientesNoAsociadosEnEspera.remove(0);
 		 				}
 		 				
 		 				Ta = TA();
@@ -148,10 +150,25 @@ public class Restaurante {
 		 }//Fin del while	    
 }
 
+	public static LocalTime IA() {
+		Random R = new Random();
+		double Hora = (2-0.03125)* R.nextDouble() + 0.03125;
+		LocalTime intervalo = new LocalTime (Hora,0,0);
+		return intervalo;
+	}
+
 
 	private static LocalTime TA() {
-		LocalTime intervalo = new LocalTime (0,0,0,0);
-		return intervalo;
+		Random R = new Random();
+		
+		while(true) {
+		double random1 = R.nextDouble();
+		double random2 = R.nextDouble();
+		if((random1 * 0.03 + 0.47) >= (random2 * 12)) {
+			LocalTime intervalo = new LocalTime (random1,0,0);
+			return intervalo;
+			}
+		}
 	}
 
 
@@ -194,24 +211,6 @@ public class Restaurante {
 		i++;	
 		}
 	}
-
-
-	private static boolean algunMozoPuedeAtender() {
-		for(int nMesasDelMozo : NMM){
-			if(nMesasDelMozo < 4){
-				return true;
-			}
-		}
-		return false;
-	}
-
-
-	public static LocalTime IA() {
-		// TODO Auto-generated method stub
-		LocalTime intervalo = new LocalTime (0,0,0,0);
-		return intervalo;
-	}
-
 
 	public static int buscarMenorTPS() {
 		
