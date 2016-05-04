@@ -120,7 +120,7 @@ public class Restaurante {
 		 				if(NSA >= 0){
 		 					NSA--;
 			 				TPS[i].setCliente(clientesAsociadosEnEspera.get(0));
-							clienteAsociadosEnEspera.remove(0);
+			 				clientesAsociadosEnEspera.remove(0);
 		 				}
 		 				else{
 		 					NSNA--;
@@ -153,7 +153,7 @@ public class Restaurante {
 	public static LocalTime IA() {
 		Random R = new Random();
 		double Hora = (2-0.03125)* R.nextDouble() + 0.03125;
-		LocalTime intervalo = new LocalTime (Hora,0,0);
+		LocalTime intervalo = new LocalTime ((int) Hora,0,0);
 		return intervalo;
 	}
 
@@ -165,7 +165,7 @@ public class Restaurante {
 		double random1 = R.nextDouble();
 		double random2 = R.nextDouble();
 		if((random1 * 0.03 + 0.47) >= (random2 * 12)) {
-			LocalTime intervalo = new LocalTime (random1,0,0);
+			LocalTime intervalo = new LocalTime ((int)random1,0,0);
 			return intervalo;
 			}
 		}
